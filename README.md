@@ -1,23 +1,28 @@
-# YOLO Project
-
-这是一个基于 Ultralytics YOLO11 的目标检测项目。
-
+# 基于YOLO模型的图像检测自动化训练与平台
+### Automated training and platform for image detection based on YOLO model
 ## 项目结构
 
-```
-.
-├── Library/
-│   └── Model/
-│       ├── annotation_model_hub/
-│       └── model_training_hub/
-│           ├── config/
-│           └── training_log/
+``` python
+<项目根目录>
 ├── src/
-│   ├── auto_annotation.py
-│   ├── auto_config.py
-│   ├── main.py
-│   └── train.py
-└── pyproject.toml
+│   ├── main.py               # 项目入口（基础配置）
+│   ├── train.py              # YOLO模型训练与验证逻辑
+│   ├── auto_config.py        # 路径与训练参数配置
+│   ├── auto_annotation.py    # 视频帧提取、自动标注功能
+│   └── ui/
+│       ├── main.py           # UI启动入口（PySide6）
+│       └── ui.qml            # QML界面布局
+└── Library/                  # 数据与模型存储目录（自动生成）
+    ├── Dataset/              # 数据集
+    │   ├── core_set/         # 核心数据集
+    │   ├── raw_data/         # 原始数据（图像/视频）
+    │   └── train_set/        # 标注后训练集
+    └── Model/                # 模型相关
+        ├── annotation_model_hub/  # 标注用模型
+        └── model_training_hub/    # 训练用模型、配置、日志
+            ├── config/            # 训练配置文件
+            ├── model_hub/         # 训练用模型文件
+            └── training_log/      # 训练日志
 ```
 
 ## 安装依赖
@@ -25,36 +30,13 @@
 确保已安装 Python 3.13 或更高版本，然后安装项目依赖：
 
 ```bash
-pip install -e .
+pip install uv # 安装uv
+uv init # 初始化项目
+uv add pyproject.toml # 添加依赖
 ```
-
-或使用 pip 安装指定依赖：
-
-```bash
-pip install opencv-python pyside6 rich tensorboard ultralytics
-```
-
 ## 使用方法
-
-### 训练模型
-
-要训练模型，请运行 [train.py](file:///E:/Project/YOLO/src/train.py) 脚本：
-
-```bash
-cd src
-python train.py
-```
-
-训练配置可以在 [Library/Model/model_training_hub/config](file:///E:/Project/YOLO/Library/Model/model_training_hub/config) 目录中进行设置。
-
-### 配置说明
-
-模型训练的主要配置在 [src/auto_config.py](file:///E:/Project/YOLO/src/auto_config.py) 中定义，包括训练轮数、批次大小、图像尺寸等参数。
-
-## 引用
-
-如果您在研究中使用了此项目，请引用以下文献：
-
+项目还在开发中，请耐心等待。
+## 致谢
 ```bibtex
 @software{yolo11_ultralytics,
   author = {Glenn Jocher and Jing Qiu},
@@ -66,7 +48,3 @@ python train.py
   license = {AGPL-3.0}
 }
 ```
-
-## 许可证
-
-本项目根据 AGPL-3.0 许可证授权，详情请见 LICENSE 文件。
