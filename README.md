@@ -34,7 +34,7 @@ pip install uv # 安装uv
 uv init # 初始化项目
 uv add pyproject.toml # 添加依赖
 ```
-注意:ultralytics默认tompy版本为cpu,不支持cuda,若需要使用cuda请先检查设备cuda版本,若可以使用执行一下操作
+注意:ultralytics默认torch版本为cpu,不支持cuda,若需要使用cuda请先检查设备cuda版本,若可以使用执行一下操作
 ```bash
 uv pip uninstall torch torchvision # 卸载torch torchvision
 ```
