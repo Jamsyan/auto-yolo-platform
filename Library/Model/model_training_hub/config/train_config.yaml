@@ -1,0 +1,10 @@
+path: ../Dataset/train_set
+train:
+  - 1/images/train
+  - 2/images/train
+val:
+  - 1/images/val
+  - 2/images/val
+nc: 1
+names:
+  0: 'jihanyang'
