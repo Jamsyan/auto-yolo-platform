@@ -180,8 +180,6 @@ class VideoFrameExtractor:
             text = f'[提示]---数据处理完成'
             print(text)
 
-
-
 class FaceAnnotation:
     def __init__(self):
         self.annotation_model_hub = DefaultPathSet.MODEL_ANNOTATION_MODEL_HUB # 模型库
