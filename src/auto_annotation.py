@@ -29,8 +29,8 @@ class VideoFrameExtractor:
                 ret, frame = cap.read()
                 frame = cv2.resize(frame, (360, 640))  # 切割尺寸
                 image_name = f'row_image_{index}.jpg'
-                path = path/image_name
-                cv2.imwrite(filename=path, img=frame)  # 写出原始图片文件
+                filename = str(path/image_name)
+                cv2.imwrite(filename=filename, img=frame)  # 写出原始图片文件
                 if variant: # 图片变体
                     self.extract_frame_with_variants(frame=frame,index=index) # 图片变体
         cap.release()
@@ -60,47 +60,52 @@ class VideoFrameExtractor:
         path.mkdir(parents=True, exist_ok=True)
         for name, image in zip(ch_frame_list_name, ch_frame_list):
             image_name = f'{name}_{index}.jpg'
-            path = path/image_name
-            cv2.imwrite(filename=path,img=image)  # 输出变体文件
+            filename = str(path/image_name)
+            cv2.imwrite(filename=filename,img=image)  # 输出变体文件
 
     def pre_execution_check(self):
-        '''
+        """
         主流程执行前检查
         :return:
-        '''
-        def check(video):
-            cap = cv2.VideoCapture(video)
+        """
+        def check(_video):
+            package_count = len([i for i in Path(self.out).iterdir()])
+            if package_count == 0:
+                return True
+            cap = cv2.VideoCapture(_video)
             if cap.isOpened():
                 frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-                package_name = Path(video).stem
+                package_name = Path(_video).stem
                 path = Path(self.out).joinpath(package_name)
                 file_count = len([i for i in Path(path).iterdir()])
                 cap.release()
-                if file_count >= frame_count:
-                    text = f'[提示]---检测到视频{video}对应数据集已存在,已自动跳过...'
-                    print(text)
+                if file_count == frame_count or file_count == frame_count*6:
+                    _text = f'[提示]---检测到视频{_video}对应数据集已存在,已自动跳过...'
+                    print(_text)
                     return False
                 else:
                     return True
+            return None
 
+        # 路径参数输入存在检查
         status = {'video':False,'out':False}
-        if self.video is None:
+        if self.video is None: # 没有输入视频文件/目录
             self.video = str(Path(DefaultPathSet.FULL_DATASET_RAW_DATA_VIDEO).resolve())
             status['video'] = True
-            text = f'[提示]---未找到视频文件,已自动选择默认视频文件目录:{self.video}'
+            text = f'[提示]---未找到视频文件/目录,已自动选择默认视频文件目录:{self.video}'
             print(text)
-        if self.out is None:
+        if self.out is None: # 没有设置输出路径
             self.out = str(Path(DefaultPathSet.FULL_DATASET_RAW_DATA_IMAGE).resolve())
             status['out'] = True
             text = f'[提示]---未找到图片输出目录,已自动选择默认图片输出目录:{self.out}'
             print(text)
-        else:
+        else: # 是自定义输出路径
             if not Path(self.out).is_dir():
                 Path(self.out).mkdir(parents=True, exist_ok=True)
                 text = f'[提示]---检测到自定义输出路径不存在已自动创建图片输出目录:{self.out}'
                 print(text)
                 return True
-        if status['video']:
+        if status['video']: # 是默认视频目录路径
             video = [i for i in Path(self.video).iterdir()]
             if len(video) == 0:
                 text = f'[错误]---未找到视频文件,请检查是否正确导入视频数据'
@@ -114,11 +119,11 @@ class VideoFrameExtractor:
                 if len(video) <= len(self.skip_list):
                     return False
             return True
-        else:
-            if isinstance(self.video, str):
+        else: # 自定义视频文件/目录路径
+            if isinstance(self.video, str): # 是文件路径
                 if Path(self.video).is_file():
                     return check(self.video)
-                elif Path(self.video).is_dir():
+                elif Path(self.video).is_dir(): # 是目录路径
                     video = [i for i in Path(self.video).iterdir()]
                     if len(video) == 0:
                         text = f'[错误]---未找到视频文件,请检查视频文件路径是否正确'
@@ -132,18 +137,19 @@ class VideoFrameExtractor:
                     if len(video) <= len(self.skip_list):
                         return False
                     return True
-            elif isinstance(self.video, list):
+            elif isinstance(self.video, list): # 是列表
                 for item in self.video:
-                    if Path(item).is_file():
+                    if Path(item).is_file(): # 是文件
                         if check(item):
                             continue
                         else:
                             self.skip_list.append(item)
-                    elif Path(item).is_dir():
+                    elif Path(item).is_dir(): # 是目录
                         self.skip_list.append(item)
                 if len(self.video) <= len(self.skip_list):
                     return False
                 return True
+            return None
 
     def execute(self):
         if self.pre_execution_check():
