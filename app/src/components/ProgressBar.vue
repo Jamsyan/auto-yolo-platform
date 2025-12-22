@@ -1,17 +1,30 @@
 <script setup>
-import {ref} from "vue";
-const progress = ref(20);
+import {reactive} from "vue";
+const progress = reactive({
+  task_id: "",
+  labels: "",
+  totel: "",
+  time: "",
+})
+
 </script>
 
 <template>
-  <div class="progress-bar">
-    <div class="inner-bar" :style="{width: progress + '%'}"></div>
+  <div>
+    <div class="progress-bar">
+      <div class="inner-bar" :style="{width: progress + '%'}"></div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.progress-bar {
+.box {
   width: 100%;
+  display: grid;
+  grid-template-rows: 10% 90%;
+}
+.progress-bar {
+  width: 100px;
   height: 15px;
   background: white;
   border-radius: 10px;

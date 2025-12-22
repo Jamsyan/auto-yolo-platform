@@ -1,49 +1,36 @@
 <script>
 import ProgressBar from "./components/ProgressBar.vue";
-import LayoutSidebar from "@/components/LayoutSidebar.vue";
+import MenuBar from "./views/MenuBar.vue";
 export default {
   name: "App",
   components: {
-    LayoutSidebar,
+    MenuBar,
     ProgressBar,
   },
-  data() {
-    return {
-      'progressnum': 10,
-    };
-  },
 };
+
 </script>
 
 <template>
-  <header>
-    <div class="top-container">
-
+  <div class = 'app'>
+    <div class="app_top">
+      <MenuBar />
+    </div>
+    <div class="app_center">
+    </div>
+    <div class="app_bottom">
+      <ProgressBar />
+    </div>
   </div>
-  </header>
-  <main>
-    <div class="main-container">
-    <aside><LayoutSidebar/></aside>
-  </div>
-  </main>
-  <footer>
-    <div class="footer-container">
-    <ProgressBar :progress = 'progressnum'/>
-  </div>
-  </footer>
 </template>
 
 <style>
-.top-container {
-  width: 1000px;
-  height: 20%;
+.app {
 }
-.main-container {
-  width: 1000px;
-  height: 60%;
+.app_top {}
+.app_center {
+  display: grid;
+  grid-template-columns: 30% 70%;
 }
-.footer-container {
-  width: 1000px;
-  height: 20%;
-}
+.app_bottom {}
 </style>
