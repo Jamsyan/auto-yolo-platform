@@ -1,13 +1,31 @@
-<script>
+<script setup>
+import { onMounted,provide,ref} from "vue";
 import ProgressBar from "./components/ProgressBar.vue";
 import MenuBar from "./views/MenuBar.vue";
-export default {
-  name: "App",
-  components: {
-    MenuBar,
-    ProgressBar,
-  },
-};
+import {submit, update} from "@/api/progressbar.js";
+
+const pbarsubmit = ref({});
+const pbarupdate = ref({});
+
+provide("pbarsubmit", submit);
+provide("pbarupdate", update);
+
+onMounted(()=> {
+  const socket = new WebSocket("ws://localhost:8000/api/");
+  socket.onmessage = function(event) {
+    console.log("收到消息:", event.data);
+    const eventData = JSON.parse(event.data);
+    if (eventData.type === "ProgressBar.submit") {
+      const newdata = submit(eventData)
+      Object.assign(pbarsubmit.value, newdata)
+    }
+    else if (eventData.type === "ProgressBar.update") {
+      const newdata = update(eventData)
+      Object.assign(pbarupdate.value, newdata)
+    }
+  };
+})
+
 
 </script>
 

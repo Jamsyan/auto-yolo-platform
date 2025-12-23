@@ -24,26 +24,27 @@
 .app-title {
   display: flex;
   box-shadow: 3px 3px 2px rgba(0,0,0,0.3), -3px -3px 4px rgba(90, 90, 90, 0.67);
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 0 0 0 0;
 }
 .menu-bar{
   background: #ffffff;
   box-shadow:6px 6px 8px rgba(0,0,0,0.3),-2px -2px 8px rgba(138, 138, 138, 0.67);
-  border-radius: 6px;
+  border-radius: 15px;
   margin: 0 0 0 0;
 }
 .menu-bar-items {
   display: inline-block;
   padding: 10px 8px 10px 8px;
   margin: 8px 10px 8px 10px;
-  color: #4e4c4c;
+  color: #303030;
   font-size: 15px;
   font-weight: bold;
   border-bottom: 3px solid transparent;
-  border-radius: 6px;
+  border-radius: 15px;
   transition: all 0.3s ease;
   &:hover {
+    background: rgba(179, 179, 179, 0.37);
     box-shadow: 5px 5px 5px rgba(0,0,0,0.3), -2px -2px 3px rgba(189, 186, 186, 0.74);
   }
 }

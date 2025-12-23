@@ -3,10 +3,11 @@ import cv2
 import random
 import numpy as np
 from pathlib import Path
-from rich import print
 from ultralytics import YOLO
 from auto_config import DefaultPathSet
+from backend.progressbar import ProgressBar
 
+pbar = ProgressBar()
 class VideoFrameExtractor:
     def __init__(self,video=None,out=None):
         self.video = video
