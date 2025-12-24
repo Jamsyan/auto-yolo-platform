@@ -12,9 +12,16 @@ provide("pbarupdate", update);
 
 onMounted(()=> {
   const socket = new WebSocket("ws://localhost:8000/api/");
+  socket.onopen = function () {
+    console.log("200");
+    socket.send("200")
+  }
+
   socket.onmessage = function(event) {
-    console.log("收到消息:", event.data);
+    console.log("get messages:", event.data);
+    socket.send("get")
     const eventData = JSON.parse(event.data);
+    console.log(eventData);
     if (eventData.type === "ProgressBar.submit") {
       const newdata = submit(eventData)
       Object.assign(pbarsubmit.value, newdata)
@@ -24,6 +31,8 @@ onMounted(()=> {
       Object.assign(pbarupdate.value, newdata)
     }
   };
+
+  socket.onerror = (error) => {console.error("WebSocket 错误:", error);};
 })
 
 

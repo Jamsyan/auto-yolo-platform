@@ -1,18 +1,19 @@
 ﻿# -*- coding: utf-8 -*-
+import time
 import cv2
 import random
 import numpy as np
 from pathlib import Path
 from ultralytics import YOLO
 from auto_config import DefaultPathSet
-from backend.progressbar import ProgressBar
+from api.progressbar import ProgressBar
 
-pbar = ProgressBar()
 class VideoFrameExtractor:
     def __init__(self,video=None,out=None):
         self.video = video
         self.out = out
         self.skip_list = []
+        self.pbar = ProgressBar()
 
     def extract_frame_with_image(self,variant=True):
         """
@@ -20,6 +21,7 @@ class VideoFrameExtractor:
         :param variant: True|False 默认True 执行图片变体生成
         :return
         """
+        self.pbar.submit(task_id=2,task_name=f'从视频{self.video}中提取出图像数据,并保存到输出路径',total=1)
         cap = cv2.VideoCapture(self.video)
         if cap.isOpened():
             frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -32,6 +34,8 @@ class VideoFrameExtractor:
                 image_name = f'row_image_{index}.jpg'
                 filename = str(path/image_name)
                 cv2.imwrite(filename=filename, img=frame)  # 写出原始图片文件
+                self.pbar.log = f'正在处理第{index}帧数据...'
+                self.pbar.update(task_id=2)
                 if variant: # 图片变体
                     self.extract_frame_with_variants(frame=frame,index=index) # 图片变体
         cap.release()
@@ -43,6 +47,7 @@ class VideoFrameExtractor:
         :param index: 输入文件命名序列
         :return:
         """
+        self.pbar.submit(task_id=3, task_name=f'正在处理第{index}帧数据变体...', total=5)
         b, g, r = cv2.split(frame)
         zeros = np.zeros_like(frame[:, :, 0])
         # 原始图片变体
@@ -63,6 +68,8 @@ class VideoFrameExtractor:
             image_name = f'{name}_{index}.jpg'
             filename = str(path/image_name)
             cv2.imwrite(filename=filename,img=image)  # 输出变体文件
+            self.pbar.log = f'正在处理第{index}帧数据{name}变体...'
+            self.pbar.update(task_id=3)
 
     def pre_execution_check(self):
         """
@@ -78,6 +85,7 @@ class VideoFrameExtractor:
                 frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
                 package_name = Path(_video).stem
                 path = Path(self.out).joinpath(package_name)
+                path.mkdir(parents=True, exist_ok=True)
                 file_count = len([i for i in Path(path).iterdir()])
                 cap.release()
                 if file_count == frame_count or file_count == frame_count*6:
@@ -156,30 +164,45 @@ class VideoFrameExtractor:
         if self.pre_execution_check():
             if isinstance(self.video, str):
                 if Path(self.video).is_file():
+                    self.pbar.submit(task_id=1,task_name=f"处理文件{self.video}",total=1)
+                    self.pbar.log=f"[提示]---检测到文件,已自动切换模式"
                     self.extract_frame_with_image()
+                    self.pbar.log=f"处理文件{self.video}完成"
+                    self.pbar.update(task_id=1)
                 elif Path(self.video).is_dir():
-                    text = f'[提示]---检测到路径,已自动切换模式'
-                    print(text)
+                    self.pbar.submit(task_id=1, task_name=f"处理路径{self.video}", total=1)
+                    self.pbar.log=f'[提示]---检测到路径,已自动切换模式'
                     temp = self.video
                     for item in Path(temp).iterdir():
                         if item in self.skip_list:
+                            self.pbar.log=f"文件{item}已跳过"
+                            self.pbar.update(task_id=1)
                             continue
                         self.video = item
                         self.extract_frame_with_image()
+                        self.pbar.log="处理文件{item}"
+                        self.pbar.update(task_id=1)
+                    self.pbar.log=f"处理路径{self.video}完成"
+                    self.pbar.update(task_id=1)
             elif isinstance(self.video, list):
-                text = f'[提示]---检测到批量数据,已自动切换模式'
-                print(text)
+                self.pbar.submit(task_id=1, task_name=f"处理批量数据{self.video}", total=len(self.video))
+                self.pbar.log=f'[提示]---检测到批量数据,已自动切换模式'
                 temp = self.video
                 for item in temp:
                     if item in self.skip_list:
-                         continue
-                    if Path(item).is_file():
+                        self.pbar.log=f"文件{item}已跳过"
+                        continue
+                    elif Path(item).is_file():
+                        self.pbar.log=f"处理文件{item}"
                         self.video = item
                         self.extract_frame_with_image()
+                        self.pbar.log=f"处理文件{item}完成"
                     else:
-                        raise FileNotFoundError(f'[错误]---批量数据{item}不是合法文件')
-            text = f'[提示]---数据处理完成'
-            print(text)
+                        self.pbar.log=f'[错误]---批量数据{item}不是合法文件'
+                        raise FileNotFoundError(self.pbar.log)
+                    self.pbar.update(task_id=1)
+            self.pbar.log = f'[提示]---数据处理完成'
+            self.pbar.update(task_id=1)
 
 class FaceAnnotation:
     def __init__(self):
