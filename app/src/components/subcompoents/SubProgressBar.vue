@@ -1,47 +1,57 @@
 <script setup>
 import {inject,defineProps} from "vue";
-
+const update = inject("pbarupdate")
 const props = defineProps({
   task_ID: String,
   task_name: String,
-  show: Boolean
 })
 
-const update = inject("pbarupdate");
-const time_all = update[props.task_ID].time_all;
-const time_left = update[props.task_ID].time_left;
-const task_log = update[props.task_ID].task_log;
-const index = update[props.task_ID].index;
+console.log('update类型:', typeof update) // 应该是 'object'
+console.log('update值:', update) // 应该显示 RefImpl 对象
+console.log('update.value:', update.value) // 应该显示实际数据
+
+const data = update.value[props.task_ID]??{
+  time_all: "00:00:00",
+  time_left: "00:00:00",
+  task_log: null,
+  index: 0,
+}
+const time_all = data.time_all
+const time_left = data.time_left
+const task_log = data.task_log
+const index = data.index
 
 </script>
 
 <template>
-<div class="inside-box-1">
-  <div class="task-title" v-if="show">{{props.task_ID}}|{{props.task_name}}</div>
-</div>
-<div class="inside-box-2">
-  <div class="task-time">
-    {{time_all}}|{{time_left}}
+  <div class="inside-box-1">
+    <div class="task-title">{{props.task_ID}}{{props.task_name}}</div>
   </div>
-  <div class="progress-bar">
-    <div class="inner-bar" :style="{width: index + '%'}"></div>
+  <div class="inside-box-2">
+    <div class="task-time">
+      {{time_all}}|{{time_left}}
+    </div>
+    <div class="progress-bar">
+      <div class="inner-bar" :style="{width: index + '%'}"></div>
+    </div>
   </div>
-</div>
-<div class="inside-box-3" v-if="task_log && show">
-  <div class="task-log">{{task_log}}</div>
-</div>
+  <div class="inside-box-3">
+    <div class="task-log">{{task_log}}</div>
+  </div>
 </template>
 
 <style scoped>
-
-.inside-box-1  {}
+.inside-box-1  {
+}
 
 .inside-box-2 {
   display: flex;
+  min-height: 40px;
   height: 40px;
   flex-direction: row;
 }
-.inside-box-3 {}
+.inside-box-3 {
+}
 
 .task-title {
   text-align: left;
@@ -65,7 +75,7 @@ const index = update[props.task_ID].index;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 2px 2px 2px rgba(221, 221, 221, 0.2);
-  margin: auto auto auto 0;
+  margin: auto 10px auto 10px;
   transition: all 2s ease;
 }
 

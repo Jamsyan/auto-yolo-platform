@@ -9,6 +9,7 @@ dependencies = [
     "opencv-python>=4.12.0.88",
     "pywebview>=6.1",
     "rich>=14.2.0",
+    "scikit-learn>=1.8.0",
     "tensorboard>=2.20.0",
     "ultralytics>=8.3.237",
     "uvicorn[standard]>=0.38.0",

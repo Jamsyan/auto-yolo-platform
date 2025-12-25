@@ -1,39 +1,23 @@
 <script setup>
-import { onMounted,provide,ref} from "vue";
+import {provide,ref} from "vue";
 import ProgressBar from "./components/ProgressBar.vue";
 import MenuBar from "./views/MenuBar.vue";
-import {submit, update} from "@/api/progressbar.js";
 
-const pbarsubmit = ref({});
+const pbarsubmit = ref({
+  "type": "null",
+  task: [
+       {
+         "task_ID": null,
+         "task_name": null,
+         "total": 0
+       }
+  ]
+});
+
 const pbarupdate = ref({});
 
-provide("pbarsubmit", submit);
-provide("pbarupdate", update);
-
-onMounted(()=> {
-  const socket = new WebSocket("ws://localhost:8000/api/");
-  socket.onopen = function () {
-    console.log("200");
-    socket.send("200")
-  }
-
-  socket.onmessage = function(event) {
-    console.log("get messages:", event.data);
-    socket.send("get")
-    const eventData = JSON.parse(event.data);
-    console.log(eventData);
-    if (eventData.type === "ProgressBar.submit") {
-      const newdata = submit(eventData)
-      Object.assign(pbarsubmit.value, newdata)
-    }
-    else if (eventData.type === "ProgressBar.update") {
-      const newdata = update(eventData)
-      Object.assign(pbarupdate.value, newdata)
-    }
-  };
-
-  socket.onerror = (error) => {console.error("WebSocket 错误:", error);};
-})
+provide("pbarsubmit", pbarsubmit);
+provide("pbarupdate", pbarupdate);
 
 
 </script>
@@ -44,6 +28,7 @@ onMounted(()=> {
       <MenuBar />
     </div>
     <div class="app_center">
+      <router-view />
     </div>
     <div class="app_bottom">
       <ProgressBar />

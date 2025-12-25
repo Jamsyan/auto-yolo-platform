@@ -21,10 +21,12 @@ class VideoFrameExtractor:
         :param variant: True|False 默认True 执行图片变体生成
         :return
         """
-        self.pbar.submit(task_id=2,task_name=f'从视频{self.video}中提取出图像数据,并保存到输出路径',total=1)
         cap = cv2.VideoCapture(self.video)
         if cap.isOpened():
             frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            self.pbar.submit(task_id=2,
+                             task_name=f'从视频{self.video}中提取出图像数据',
+                             total=frame_count)
             package_name = Path(self.video).stem
             path = Path(self.out).joinpath(package_name)
             path.mkdir(parents=True, exist_ok=True)
@@ -35,7 +37,6 @@ class VideoFrameExtractor:
                 filename = str(path/image_name)
                 cv2.imwrite(filename=filename, img=frame)  # 写出原始图片文件
                 self.pbar.log = f'正在处理第{index}帧数据...'
-                self.pbar.update(task_id=2)
                 if variant: # 图片变体
                     self.extract_frame_with_variants(frame=frame,index=index) # 图片变体
         cap.release()
@@ -47,7 +48,6 @@ class VideoFrameExtractor:
         :param index: 输入文件命名序列
         :return:
         """
-        self.pbar.submit(task_id=3, task_name=f'正在处理第{index}帧数据变体...', total=5)
         b, g, r = cv2.split(frame)
         zeros = np.zeros_like(frame[:, :, 0])
         # 原始图片变体
@@ -69,7 +69,7 @@ class VideoFrameExtractor:
             filename = str(path/image_name)
             cv2.imwrite(filename=filename,img=image)  # 输出变体文件
             self.pbar.log = f'正在处理第{index}帧数据{name}变体...'
-            self.pbar.update(task_id=3)
+        self.pbar.update(task_id=2)
 
     def pre_execution_check(self):
         """
