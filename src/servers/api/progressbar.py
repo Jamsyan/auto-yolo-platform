@@ -1,5 +1,4 @@
 import time
-from threading import Lock
 
 class ProgressBar:
     def __init__(self):
@@ -12,12 +11,11 @@ class ProgressBar:
         self.time_left = None
         self.time_submit = {}
         self.time_update = {}
-        self.lock = Lock()
 
     def submit(self, task_id,task_name,total):
         self.task_ID = task_id
         self.total = total
-        self.time_submit = {task_id: time.time()}
+        self.time_submit[task_id] = time.time()
         self.task.append({
             "task_id": task_id,
             "task_name": task_name,
@@ -27,10 +25,11 @@ class ProgressBar:
             "type": f"{self.__class__.__name__}.{self.submit.__name__}",
             "task": self.task,
         }
+        post_msg(data)
 
     def update(self, task_id):
         self.index += 1
-        self.time_update = {task_id: time.time()}
+        self.time_update[task_id] = time.time()
         self.calculate_time(task_id)
         index = min(100, int((self.index / self.total) * 100))
         data = {
@@ -42,6 +41,7 @@ class ProgressBar:
                 "index": f'{index}%'
             }
         }
+        post_msg(data)
 
     def calculate_time(self, task_id):
         update_time_list = []

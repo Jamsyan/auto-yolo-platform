@@ -1,12 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
-import time
 import cv2
 import random
 import numpy as np
 from pathlib import Path
 from ultralytics import YOLO
 from auto_config import DefaultPathSet
-from api.progressbar import ProgressBar
+from servers.api.progressbar import ProgressBar
 
 class VideoFrameExtractor:
     def __init__(self,video=None,out=None):
