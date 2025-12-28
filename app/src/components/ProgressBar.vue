@@ -54,7 +54,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="box">
+  <div class="pbar-box">
     <SubProgressBar
         v-for="item in data"
         :key="item.task_id"
@@ -65,12 +65,12 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.box {
+.pbar-box {
   display: flex;
   flex-direction: column;
   width: 100%;
   border-radius: 18px;
-  box-shadow: 8px 8px 5px rgba(39, 39, 39, 0.33), -3px -3px 8px rgba(126, 126, 126, 0.6);
+  box-shadow: 2px 2px 2px rgba(39, 39, 39, 0.33), -1px -1px 4px rgba(126, 126, 126, 0.6);
   margin: 30px auto auto auto;
 }
 </style>

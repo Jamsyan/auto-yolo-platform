@@ -1,8 +1,8 @@
 <script setup>
 import {onMounted, provide} from "vue";
-import ProgressBar from "./components/ProgressBar.vue";
 import MenuBar from "./views/MenuBar.vue";
 import {pbarsubmit, pbarupdate} from "./api/api.js"
+import DataCollection from "@/views/DataCollection.vue";
 
 provide("pbarsubmit", pbarsubmit);
 provide("pbarupdate", pbarupdate);
@@ -27,19 +27,21 @@ onMounted(()=> {
 
 <template>
   <div class = 'app'>
-    <div class="app_top"><MenuBar /></div>
-    <div class="app_center"></div>
-    <div class="app_bottom"><ProgressBar /></div>
+    <div class="app_top"><MenuBar/></div>
+    <div class="app_center"><DataCollection/></div>
+    <div class="app_bottom"></div>
   </div>
 </template>
 
 <style>
 .app {
 }
+
 .app_top {}
 .app_center {
-  display: grid;
-  grid-template-columns: 30% 70%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
 }
 .app_bottom {
 }

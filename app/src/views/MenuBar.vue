@@ -3,7 +3,6 @@
 
 <template>
   <div class="menu-box">
-    <div class="app-title"></div>
     <nav class="menu-bar">
       <div>
         <router-link class="menu-bar-items" to="/">数据采集</router-link>
@@ -21,15 +20,10 @@
   display: grid;
   grid-template-rows: auto auto;
 }
-.app-title {
-  display: flex;
-  box-shadow: 3px 3px 2px rgba(0,0,0,0.3), -3px -3px 4px rgba(90, 90, 90, 0.67);
-  border-radius: 10px;
-  margin: 0 0 0 0;
-}
+
 .menu-bar{
   background: #ffffff;
-  box-shadow:6px 6px 8px rgba(0,0,0,0.3),-2px -2px 8px rgba(138, 138, 138, 0.67);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.29),-1px -1px 3px rgba(184, 182, 182, 0.83);
   border-radius: 15px;
   margin: 0 0 0 0;
 }
