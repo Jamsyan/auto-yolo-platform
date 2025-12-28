@@ -170,7 +170,8 @@ class VideoFrameExtractor:
                     self.pbar.log=f"处理文件{self.video}完成"
                     self.pbar.update(task_id=1)
                 elif Path(self.video).is_dir():
-                    self.pbar.submit(task_id=1, task_name=f"处理路径{self.video}", total=1)
+                    total = len([i for i in Path(self.video).iterdir()])
+                    self.pbar.submit(task_id=1, task_name=f"处理路径{self.video}", total=total)
                     self.pbar.log=f'[提示]---检测到路径,已自动切换模式'
                     temp = self.video
                     for item in Path(temp).iterdir():

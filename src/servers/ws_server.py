@@ -30,7 +30,7 @@ async def receive_messages(websocket: WebSocket):
 async def send_messages(websocket: WebSocket):
     while True:
         try:
-            data = await asyncio.wait_for(message_queue.get(), timeout=0.01)
+            data = await asyncio.wait_for(message_queue.get(), timeout=5)
             await websocket.send_text(json.dumps(data))
             await asyncio.sleep(0.001)
 

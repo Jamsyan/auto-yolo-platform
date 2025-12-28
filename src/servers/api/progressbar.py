@@ -66,38 +66,32 @@ class ProgressBar:
         ))
 
     def calculate_time(self, task_id):
-        update_time_list = []
         time_submit = self.time_submit[task_id]
         time_update = self.time_update[task_id]
-        update_time_list.append(time_update)
-        execution_time = sum(update_time_list)/len(update_time_list)
-        total_time = execution_time*self.total[task_id]
-        left_time = total_time - (time_update - time_submit)
+        
+        # 计算已完成部分的平均执行时间
+        current_progress = self.index[task_id]
+        if current_progress > 0:
+            elapsed_time = time_update - time_submit  # 已用时间
+            avg_time_per_unit = elapsed_time / current_progress  # 每个单位的平均耗时
+            total_time = avg_time_per_unit * self.total[task_id]  # 预计总时间
+            left_time = total_time - elapsed_time  # 剩余时间
+        else:
+            # 如果还没有进度，则估算一个值
+            total_time = 0
+            left_time = 0
 
         def format_t(t):
             """
-            更健壮的时间格式化
-            支持: 毫秒精度、超过24小时、可读性强
+            时间格式化为 HH:MM:SS 格式
             """
-            td = timedelta(seconds=t)
-
-            # 如果小于1小时，显示 MM:SS.fff
-            if t < 3600:
-                minutes = int(td.seconds // 60)
-                seconds = (td.seconds % 60) + td.microseconds / 1_000_000
-                return f"{minutes:02d}:{seconds:06.3f}"
-            # 如果小于1天，显示 HH:MM:SS.fff
-            elif t < 86400:
-                hours = td.seconds // 3600
-                minutes = (td.seconds % 3600) // 60
-                seconds = (td.seconds % 60) + td.microseconds / 1_000_000
-                return f"{hours:02d}:{minutes:02d}:{seconds:06.3f}"
-            # 超过1天，显示 X天 HH:MM:SS
-            else:
-                days = td.days
-                hours = td.seconds // 3600
-                minutes = (td.seconds % 3600) // 60
-                seconds = td.seconds % 60
-                return f"{days}天 {hours:02d}:{minutes:02d}:{seconds:02d}"
+            # 将总秒数转换为时、分、秒
+            if t < 0:
+                t = 0  # 避免负数时间
+            total_seconds = int(t)
+            hours = total_seconds // 3600
+            minutes = (total_seconds % 3600) // 60
+            seconds = total_seconds % 60
+            return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
         self.time_all[task_id] = format_t(total_time)  # 按任务ID存储
         self.time_left[task_id] = format_t(left_time)  # 按任务ID存储

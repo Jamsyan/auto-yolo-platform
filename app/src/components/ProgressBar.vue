@@ -9,8 +9,8 @@ const data = computed(() => submit.value.task_list || [])
   <div class="box">
     <SubProgressBar
         v-for="item in data"
-        :key="item.task_ID"
-        :task_ID="item.task_ID"
+        :key="item.task_id"
+        :task_ID="item.task_id"
         :task_name="item.task_name"
     />
   </div>

@@ -10,19 +10,28 @@ const taskData = computed(() => {
   const data = update.value.update_list || []
   let updates
   for (let item of data) {
-    if (item.task_ID === props.task_ID || props.task_ID === null) {
+    if (item.task_id === props.task_ID || props.task_ID === null) {
       updates = item
     }}
   return updates
 })
 
-const time_all = computed(() => taskData.value.time_all || "00:00:00")
-const time_left = computed(() => taskData.value.time_left || "00:00:00")
-const index = computed(() => taskData.value.index || 0)
+const time_all = computed(() => {
+  const data = taskData.value;
+  return data && data.time_all ? data.time_all : "00:00:00"
+})
+const time_left = computed(() => {
+  const data = taskData.value;
+  return data && data.time_left ? data.time_left : "00:00:00"
+})
+const index = computed(() => {
+  const data = taskData.value;
+  return data && data.index ? data.index : "0%"
+})
 </script>
 
 <template>
-  <div class="task-title" >{{props.task_ID}}{{props.task_name}}</div>
+  <div class="task-title" >{{props.task_name}}</div>
   <div class="center-box">
     <div class="progress-bar">
       <div class="inner-bar" :style="{width: index}"></div>
