@@ -34,13 +34,13 @@ class YoloTrain:
         config.save_period = 5
         config.device = 'cuda:0'
         config.rect = True
-        model.train(**config.config())
+        model.train(**config.train_set())
 
     def val(self,model_name = None):
         config = self.config
         self.model = self.model if model_name is None else self.model # 模型名称
         model = self.load_model()
-        model.val(**config.config())
+        model.val(**config.train_set())
 
 if __name__ == '__main__':
     pass

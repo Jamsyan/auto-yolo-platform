@@ -1,4 +1,5 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+import os
 import cv2
 import random
 import numpy as np
@@ -218,8 +219,8 @@ class FaceAnnotation:
         self.annotation_config() # 模型参数配置
 
     def load_model(self, model_hub = None, model_name = None):
-        model = self.annotation_model if model_name is None else self.annotation_model # 模型名称
-        model_hub = self.annotation_model_hub if model_hub is None else self.annotation_model_hub # 模型库
+        model = self.annotation_model if model_name is None else model_name # 模型名称
+        model_hub = self.annotation_model_hub if model_hub is None else model_hub # 模型库
         model_path = os.path.join(model_hub, model)
         self.model = YOLO(model_path) # 加载模型
         return self.model
