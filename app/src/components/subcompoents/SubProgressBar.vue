@@ -8,7 +8,12 @@ const props = defineProps({
 
 const taskData = computed(() => {
   const data = update.value.update_list || []
-  return data.find(item => item.task_ID === props.task_ID) || {}
+  let updates
+  for (let item of data) {
+    if (item.task_ID === props.task_ID || props.task_ID === null) {
+      updates = item
+    }}
+  return updates
 })
 
 const time_all = computed(() => taskData.value.time_all || "00:00:00")
@@ -17,7 +22,7 @@ const index = computed(() => taskData.value.index || 0)
 </script>
 
 <template>
-  <div class="task-title">{{props.task_ID}}{{props.task_name}}</div>
+  <div class="task-title" >{{props.task_ID}}{{props.task_name}}</div>
   <div class="center-box">
     <div class="progress-bar">
       <div class="inner-bar" :style="{width: index}"></div>

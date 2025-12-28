@@ -30,9 +30,9 @@ async def receive_messages(websocket: WebSocket):
 async def send_messages(websocket: WebSocket):
     while True:
         try:
-            data = await asyncio.wait_for(message_queue.get(), timeout=5.0)
+            data = await asyncio.wait_for(message_queue.get(), timeout=0.01)
             await websocket.send_text(json.dumps(data))
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.001)
 
         except asyncio.TimeoutError:
             # 发送心跳保持连接
