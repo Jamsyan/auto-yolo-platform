@@ -1,5 +1,6 @@
 <script setup>
-import {inject,defineProps,computed} from "vue";
+import {computed, defineProps, inject} from "vue";
+
 const update = inject("pbarupdate")
 const props = defineProps({
   task_ID: String,
@@ -31,30 +32,32 @@ const index = computed(() => {
 </script>
 
 <template>
-  <div class="task-title" >{{props.task_name}}</div>
-  <div class="center-box">
-    <div class="progress-bar">
-      <div class="inner-bar" :style="{width: index}"></div>
+  <div id="task-title" >{{props.task_name}}</div>
+  <div id="center-box">
+    <div id="progress-bar">
+      <div id="inner-bar" :style="{width: index}"></div>
     </div>
     <div>{{time_all}}|{{time_left}}</div>
   </div>
 </template>
 
 <style scoped>
-.task-title,.center-box {
+#task-title,#center-box {
   margin-left: 12px;
   margin-right: 12px;
 }
-.task-title {
+
+#task-title {
   padding-left: 10px;
   margin-top: 3px;
 }
-.center-box {
+
+#center-box {
   display: flex;
   margin-bottom: 3px;
 }
 
-.progress-bar {
+#progress-bar {
   width: 100%;
   height: 18px;
   background: #cdcdcd;
@@ -64,7 +67,7 @@ const index = computed(() => {
   margin:auto 12px auto 0;
 }
 
-.inner-bar {
+#inner-bar {
   height: 100%;
   background-image: linear-gradient(to right, #A8E6CF,#1B9E85);
   transition: all 2s ease;
@@ -72,11 +75,7 @@ const index = computed(() => {
 }
 
 @keyframes flowLight {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% {background-position: -200% 0;}
+  100% {background-position: 200% 0;}
 }
 </style>

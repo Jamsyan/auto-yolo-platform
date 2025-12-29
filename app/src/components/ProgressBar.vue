@@ -1,5 +1,5 @@
 <script setup>
-import SubProgressBar from "./subcompoents/SubProgressBar.vue";
+import ProgressBarItem from "./subcompoents/ProgressBarItem.vue";
 import {computed, inject, onUnmounted, ref, watch} from "vue"
 import {pbarsubmit, pbarupdate} from "@/api/api"
 
@@ -54,8 +54,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="pbar-box">
-    <SubProgressBar
+  <div class="pbar-boxs">
+    <ProgressBarItem
         v-for="item in data"
         :key="item.task_id"
         :task_ID="item.task_id"
@@ -65,12 +65,9 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.pbar-box {
-  display: flex;
-  flex-direction: column;
+.pbar-boxs {
   width: 100%;
   border-radius: 18px;
   box-shadow: 2px 2px 2px rgba(39, 39, 39, 0.33), -1px -1px 4px rgba(126, 126, 126, 0.6);
-  margin: 30px auto auto auto;
 }
 </style>
