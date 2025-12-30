@@ -21,14 +21,20 @@
 │   ├── src/
 │   │   ├── api/
 │   │   ├── components/
+│   │   │   ├── subcompoents/
+│   │   │   └── ProgressBar.vue
 │   │   ├── router/
 │   │   ├── views/
+│   │   ├── App.vue
 │   │   └── main.js
-│   └── package.json
+│   ├── package.json
+│   └── vue.config.js
 ├── src/                    # Python后端源码
-│   ├── api/
-│   │   ├── managers.py     # 消息管理器
-│   │   └── progressbar.py  # 进度条管理
+│   ├── servers/            # 服务器相关模块
+│   │   ├── api/
+│   │   │   └── progressbar.py  # 进度条管理
+│   │   ├── transportation_hub.py  # 传输中心
+│   │   └── ws_server.py         # WebSocket服务器
 │   ├── auto_annotation.py  # 视频帧提取、自动标注功能
 │   ├── auto_config.py      # 路径与训练参数配置
 │   ├── main.py             # 项目入口（FastAPI服务）
@@ -126,6 +132,22 @@ trainer.train(config_file='train_config.yaml', project='my_train_project')
 - 训练设备 (device)
 - 学习率参数 (lr0, lrf)
 - 以及其他YOLO训练所需的各种参数
+
+## 技术栈
+
+- **后端**: Python, FastAPI, Ultralytics YOLO
+- **前端**: Vue.js 3
+- **数据库**: 无（使用文件系统存储）
+- **构建工具**: uv (Python), npm (JavaScript)
+- **依赖管理**: pyproject.toml, package.json
+
+## 系统架构
+
+本项目采用前后端分离架构：
+
+1. **后端服务**：使用FastAPI框架提供REST API和WebSocket接口，处理视频帧提取、自动标注和模型训练等核心功能
+2. **前端界面**：使用Vue.js构建用户界面，提供数据收集、进度监控和系统概览等功能
+3. **数据处理**：包含视频帧提取、数据增强、自动标注和模型训练等完整的数据处理流水线
 
 ## 致谢
 
