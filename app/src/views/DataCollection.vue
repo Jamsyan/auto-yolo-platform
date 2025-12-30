@@ -4,23 +4,24 @@ import FileMenuBar from "@/components/FileMenuBar.vue";
 </script>
 
 <template>
-  <div class="dc-boxs">
-    <div id="box-1">
+  <div class="datacollection">
+    <div id="dcbox1">
       <button>导入</button>
       <button>保存</button>
       <button>开始采集</button>
       <button>采集模式</button>
+      <button>对象标签</button>
     </div>
-    <div id="box-2">
+    <div id="dcbox2">
       <FileMenuBar/>
       <div id="showbox"></div>
     </div>
-    <div id="box-3"><ProgressBar /></div>
+    <div id="dcbox3"><ProgressBar /></div>
   </div>
 </template>
 
 <style scoped>
-.dc-boxs {
+.datacollection {
   height: 100%;
   width: 100%;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.29),-1px -1px 3px rgba(184, 182, 182, 0.83);
@@ -28,12 +29,12 @@ import FileMenuBar from "@/components/FileMenuBar.vue";
   overflow: hidden;
 }
 
-#box-1 {
+#dcbox1 {
   box-shadow: 0 2px 2px rgba(0,0,0,0.2);
   padding: 10px 20px 10px 20px;
 }
 
-#box-1 button {
+#dcbox1 button {
   display: inline-block;
   background: white;
   border: 0;
@@ -43,13 +44,13 @@ import FileMenuBar from "@/components/FileMenuBar.vue";
   margin: 0 10px 0 10px;
 }
 
-#box-2 {
+#dcbox2 {
   display: flex;
   flex-direction: row;
   #showbox {}
 }
 
-#box-3 {
+#dcbox3 {
   box-shadow: 0 -2px rgba(0,0,0,0.2);
   padding: 10px 10px 10px 10px;
 }

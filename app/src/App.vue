@@ -12,16 +12,21 @@ onMounted(()=> {
   socket.onopen = () => {
     socket.send(200) //连接成功
     console.log('连接成功')
-
-    socket.onmessage = function(event) {
-      const data = JSON.parse(event.data)
-      // console.log("数据",data)
-      // console.log("数据类型",typeof data)
-      // console.log("内部数据",data.type)
-      if (data.type === "keep") {socket.send(200)} // 连接成功
-      else if (data.type === "ProgressBar.submit") {Object.assign(pbarsubmit.value, data)}
-      else if (data.type === "ProgressBar.update") {Object.assign(pbarupdate.value, data)}
-    };}})
+    }
+  socket.onerror = () => {
+    console.log("连接丢失",404)
+    setTimeout(2000)
+  }
+  socket.onmessage = function(event) {
+    const data = JSON.parse(event.data)
+    // console.log("数据",data)
+    // console.log("数据类型",typeof data)
+    // console.log("内部数据",data.type)
+    if (data.type === "keep") {socket.send(200)} // 连接成功
+    else if (data.type === "ProgressBar.submit") {Object.assign(pbarsubmit.value, data)}
+    else if (data.type === "ProgressBar.update") {Object.assign(pbarupdate.value, data)}
+    };
+})
 
 </script>
 
