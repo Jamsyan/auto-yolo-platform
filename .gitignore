@@ -7,3 +7,8 @@ Library/Model/model_training_hub/training_log
 
 *.log
 /auto-yolo-platform.wiki/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
