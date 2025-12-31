@@ -1,7 +1,9 @@
 import asyncio
 import json
 from typing import Set
+
 from fastapi import FastAPI, WebSocket
+
 active_connections: Set[WebSocket] = set()
 app = FastAPI()
 message_queue = asyncio.Queue()
@@ -36,7 +38,7 @@ async def send_messages(websocket: WebSocket):
 
         except asyncio.TimeoutError:
             # 发送心跳保持连接
-            await websocket.send_json({"type": "link:keep"})
+            await websocket.send_json({"type": "keep"})
             await asyncio.sleep(5)
 
         except Exception as e:

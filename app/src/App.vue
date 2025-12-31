@@ -1,5 +1,6 @@
 <script setup>
-import {onMounted, provide} from "vue";
+import {onMounted, onUnmounted, provide} from 'vue';
+import {getMessages, initConnection, sendMessages, wsManager} from './api/WsConnManger';
 import {RouterView} from 'vue-router';
 import MenuBar from "./views/MenuBar.vue";
 import {pbarsubmit, pbarupdate} from "./api/api.js"
@@ -7,26 +8,34 @@ import {pbarsubmit, pbarupdate} from "./api/api.js"
 provide("pbarsubmit", pbarsubmit);
 provide("pbarupdate", pbarupdate);
 
-onMounted(()=> {
-  const socket = new WebSocket("ws://localhost:8000/api/");
-  socket.onopen = () => {
-    socket.send(200) //连接成功
-    console.log('连接成功')
-    }
-  socket.onerror = () => {
-    console.log("连接丢失",404)
-    setTimeout(2000)
-  }
-  socket.onmessage = function(event) {
-    const data = JSON.parse(event.data)
-    // console.log("数据",data)
-    // console.log("数据类型",typeof data)
-    // console.log("内部数据",data.type)
-    if (data.type === "keep") {socket.send(200)} // 连接成功
-    else if (data.type === "ProgressBar.submit") {Object.assign(pbarsubmit.value, data)}
-    else if (data.type === "ProgressBar.update") {Object.assign(pbarupdate.value, data)}
-    };
-})
+// 初始化连接
+function initializeWebSocket() {
+    initConnection();
+    getMessages(function(event) {
+        const data = JSON.parse(event.data);
+        console.log('收到消息:', data);
+        if (data.type === 'keep') {sendMessages(200)}
+        else if (data.type === "ProgressBar.submit") {Object.assign(pbarsubmit.value, data)}
+        else if (data.type === "ProgressBar.update") {Object.assign(pbarupdate.value, data)}
+    });
+}
+
+onMounted(function() {
+    console.log('组件挂载,初始化WebSocket');
+    initializeWebSocket();
+});
+
+// 在组件卸载时清理
+onUnmounted(function() {
+    console.log('组件卸载,关闭WebSocket');
+    wsManager.close();
+});
+
+// 提供WebSocket相关功能给子组件
+provide('websocket', {
+    sendMessage: sendMessages,
+    isConnected: function() { return wsManager.isConnected; }
+});
 
 </script>
 
