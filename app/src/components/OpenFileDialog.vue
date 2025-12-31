@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, ref, onBeforeUnmount} from "vue"
+import {defineProps, defineExpose, ref, onBeforeUnmount} from "vue"
 
 const props = defineProps({
   title: {
@@ -10,6 +10,11 @@ const props = defineProps({
 
 // 控制对话框显示的变量
 let model = ref(false)
+
+// 暴露model属性给父组件
+defineExpose({
+  model
+})
 
 // 模拟文件夹数据
 const folders = [
