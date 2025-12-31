@@ -4,7 +4,6 @@ import {RouterLink} from 'vue-router'
 
 // 当前激活的菜单项
 const activeMenu = ref('/');
-
 // 设置激活菜单项
 const setActiveMenu = (path) => {
   activeMenu.value = path;

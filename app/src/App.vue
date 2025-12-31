@@ -1,8 +1,8 @@
 <script setup>
 import {onMounted, provide} from "vue";
+import {RouterView} from 'vue-router';
 import MenuBar from "./views/MenuBar.vue";
 import {pbarsubmit, pbarupdate} from "./api/api.js"
-import DataCollection from "@/views/DataCollection.vue";
 
 provide("pbarsubmit", pbarsubmit);
 provide("pbarupdate", pbarupdate);
@@ -33,7 +33,7 @@ onMounted(()=> {
 <template>
   <div class = 'app'>
     <div class="app_top"><MenuBar/></div>
-    <div class="app_center"><DataCollection/></div>
+    <div class="app_center"><router-view></router-view></div>
     <div class="app_bottom"></div>
   </div>
 </template>

@@ -1,12 +1,22 @@
 <script setup>
 import ProgressBar from "@/components/ProgressBar.vue";
 import FileMenuBar from "@/components/FileMenuBar.vue";
+import OpenFileDialog from "@/components/OpenFileDialog.vue";
+import {ref} from "vue";
+
+const openFileDislogRef = ref();
+
+function openfile() {
+  openFileDislogRef.value.model = true
+  console.log(' openFileDislogRef.value.model:',openFileDislogRef.value.model)
+}
+
 </script>
 
 <template>
   <div class="datacollection">
     <div id="dcbox1">
-      <button>导入</button>
+      <button @click="openfile">导入</button>
       <button>保存</button>
       <button>开始采集</button>
       <button>采集模式</button>
@@ -17,6 +27,7 @@ import FileMenuBar from "@/components/FileMenuBar.vue";
       <div id="showbox"></div>
     </div>
     <div id="dcbox3"><ProgressBar /></div>
+    <OpenFileDialog ref="openFileDislogRef" />
   </div>
 </template>
 
