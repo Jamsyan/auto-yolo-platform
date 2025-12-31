@@ -1,26 +1,37 @@
 <script setup>
-import {defineProns} from 'vue'
+/* eslint-disable no-undef */
 import {sendMessages} from "@/api/WsConnManger";
 
-const props = defineProns({
-  datas:{
-    name:String,
-    path:String
+defineProps({
+  folders: {
+    type: Array,
+    default: () => []
   }
 })
 
-function send_dirname() {
-  let dir_name = props.datas.name
+const emit = defineEmits(['click'])
+
+function handleFolderClick(folderName) {
+  emit('click', folderName)
   const text = {
     'type':'openfile.checkdir',
-    'path':dir_name
+    'path':folderName
   }
   sendMessages(text)
 }
 </script>
 
 <template>
-  <div class="open-file-dir-item" @click="send_dirname">{{props.datas.name}}</div>
+  <div class="open-file-dir-item">
+    <div 
+      v-for="folder in folders" 
+      :key="folder.path" 
+      class="dir-item"
+      @click="handleFolderClick(folder.name)"
+    >
+      {{ folder.name }}
+    </div>
+  </div>
 </template>
 
 <style scoped>

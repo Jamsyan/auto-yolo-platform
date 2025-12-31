@@ -1,36 +1,7 @@
 <script setup>
+/* eslint-disable no-undef */
 import OpenFileDirItem from './subcompoents/OpenFileDirItem.vue'
 import OpenFilePathItem from './subcompoents/OpenFilePathItem.vue'
-import {defineExpose, ref} from 'vue'
-
-// 控制对话框显示的变量
-const model = ref(false)
-
-// 模拟文件夹数据
-const folders = [
-  { name: "桌面", path: "/Desktop" },
-  { name: "文档", path: "/Documents" },
-  { name: "下载", path: "/Downloads" },
-  { name: "图片", path: "/Pictures" },
-  { name: "视频", path: "/Videos" }
-]
-
-// 模拟文件数据
-const files = [
-  { name: "file1.jpg", type: "jpg", size: "1.2 MB" },
-  { name: "file2.png", type: "png", size: "2.3 MB" },
-  { name: "file3.txt", type: "txt", size: "456 KB" },
-  { name: "file4.mp4", type: "mp4", size: "10.5 MB" },
-  { name: "file5.pdf", type: "pdf", size: "2.1 MB" }
-]
-
-// 当前选中的文件
-const selectedFile = ref("")
-
-// 暴露model属性给父组件
-defineExpose({
-  model
-})
 
 // 关闭对话框
 function closeDialog() {
@@ -58,8 +29,8 @@ function handleFileClick(fileName) {
   <dialog class="openfiredialog" v-if="model">
     <div class="dialog-header">打开文件</div>
     <div class="dialog-body">
-      <OpenFileDirItem :folders="folders" @folder-click="handleFolderClick"/>
-      <OpenFilePathItem :files="files" @file-click="handleFileClick"/>
+      <OpenFileDirItem :folders="folders" @click="handleFolderClick"/>
+      <OpenFilePathItem :files="files" @click="handleFileClick"/>
     </div>
     <div class="dialog-footer">
       <label for="filename">文件名:</label>

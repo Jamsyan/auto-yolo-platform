@@ -19,7 +19,6 @@ function initializeWebSocket() {
         else if (data.type === "ProgressBar.update") {Object.assign(pbarupdate.value, data)}
     });
 }
-
 onMounted(function() {
     console.log('组件挂载,初始化WebSocket');
     initializeWebSocket();

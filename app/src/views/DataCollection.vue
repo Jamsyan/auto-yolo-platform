@@ -1,14 +1,12 @@
 <script setup>
 import ProgressBar from "@/components/ProgressBar.vue";
 import FileMenuBar from "@/components/FileMenuBar.vue";
-import OpenFileDialog from "@/components/OpenFileDialog.vue";
+import {OpenFileDialog} from "@/components/OpenFileDialog.vue";
 import {ref} from "vue";
 
-const openFileDislogRef = ref();
-
+const model = ref(false)
 function openfile() {
-  openFileDislogRef.value.model = true
-  console.log(' openFileDislogRef.value.model:',openFileDislogRef.value.model)
+  model.value = true
 }
 
 </script>
@@ -53,6 +51,12 @@ function openfile() {
   border-radius: 10px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.45),-1px -1px 4px rgba(0, 0, 0, 0.45);
   margin: 0 10px 0 10px;
+  &:hover {
+
+  }
+  &:focus {
+
+  }
 }
 
 #dcbox2 {
