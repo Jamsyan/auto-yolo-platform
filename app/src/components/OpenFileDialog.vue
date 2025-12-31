@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, ref, watch} from "vue"
+import {defineProps, ref} from "vue"
 
 const props = defineProps({
   title: {
@@ -8,7 +8,7 @@ const props = defineProps({
   }
 })
 
-const filedialog = ref(null)
+// 控制对话框显示的变量
 let model = ref(false)
 
 // 模拟文件夹数据
@@ -45,12 +45,6 @@ const selectedFileType = ref("*")
 // 当前路径
 const currentPath = ref("/")
 
-function showDialog () {
-  if (model.value === true) {
-    filedialog.value.showModal()
-  }
-}
-
 function closeDialog () {
   model.value = false
 }
@@ -71,12 +65,10 @@ function handleFolderClick (folderName) {
   currentPath.value = currentPath.value + folderName + "/"
 }
 
-watch(model, showDialog)
-
 </script>
 
 <template>
-  <dialog class="openfiledialog" ref="filedialog" v-if="model">
+  <dialog class="openfiledialog" :open="model">
     <!-- 顶部标题栏 -->
     <div class="dialog-header">
       <div class="title">{{ props.title }}</div>
