@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, ref} from "vue"
+import {defineProps, ref, onBeforeUnmount} from "vue"
 
 const props = defineProps({
   title: {
@@ -43,27 +43,70 @@ const fileTypes = [
 const selectedFileType = ref("*")
 
 // 当前路径
-const currentPath = ref("/")
+const currentPath = ref("")
 
+// 关闭对话框动画时长（毫秒）
+const closeAnimationDuration = 300
+
+// 关闭对话框
 function closeDialog () {
-  model.value = false
+  console.log("开始关闭对话框...")
+  
+  // 执行关闭动画
+  const dialogElement = document.querySelector('.openfiledialog')
+  if (dialogElement) {
+    dialogElement.style.transition = `opacity ${closeAnimationDuration}ms ease-out`
+    dialogElement.style.opacity = '0'
+    
+    // 动画结束后销毁控件
+    setTimeout(() => {
+      destroyDialog()
+    }, closeAnimationDuration)
+  } else {
+    // 如果没有找到元素，直接销毁
+    destroyDialog()
+  }
 }
 
+// 销毁对话框
+function destroyDialog () {
+  console.log("开始销毁对话框...")
+  
+  // 关闭对话框
+  model.value = false
+  
+  // 释放内存占用的变量及资源
+  selectedFile.value = ""
+  selectedFileType.value = "*"
+  currentPath.value = ""
+  
+  console.log("对话框销毁完成")
+}
+
+// 确认选择
 function confirmSelection () {
   // 这里可以添加确认选择的逻辑
   console.log("Selected file:", selectedFile.value)
   closeDialog()
 }
 
+// 处理文件点击
 function handleFileClick (fileName) {
   selectedFile.value = fileName
 }
 
+// 处理文件夹点击
 function handleFolderClick (folderName) {
   // 这里可以添加进入文件夹的逻辑
   console.log("Enter folder:", folderName)
   currentPath.value = currentPath.value + folderName + "/"
 }
+
+// 组件销毁前清理资源
+onBeforeUnmount(() => {
+  console.log("组件即将销毁，清理资源...")
+  // 这里可以添加更多清理逻辑，如解绑事件监听器、清除定时器等
+})
 
 </script>
 
@@ -78,25 +121,21 @@ function handleFolderClick (folderName) {
     <div class="dialog-body">
       <!-- 左侧导航栏 -->
       <div class="left-sidebar">
-        <div class="sidebar-section">
-          <div class="section-title">常用位置</div>
-          <div 
-            class="sidebar-item" 
-            v-for="folder in folders" 
-            :key="folder.path"
-            @click="handleFolderClick(folder.name)"
-          >
-            {{ folder.name }}
-          </div>
+        <div class="section-title">常用位置</div>
+        <div 
+          class="sidebar-item" 
+          v-for="folder in folders" 
+          :key="folder.path"
+          @click="handleFolderClick(folder.name)"
+        >
+          {{ folder.name }}
         </div>
       </div>
       
       <!-- 右侧内容区 -->
       <div class="right-content">
         <!-- 路径栏 -->
-        <div class="path-bar">
-          {{ currentPath }}
-        </div>
+        <div class="path-bar">{{ currentPath }}</div>
         
         <!-- 文件列表 -->
         <div class="file-list">
@@ -117,7 +156,7 @@ function handleFolderClick (folderName) {
     
     <!-- 底部操作栏 -->
     <div class="dialog-bottom">
-      <div class="bottom-left">
+      <div class="file-controls">
         <div class="file-name-input">
           <label for="filename">文件名:</label>
           <input 
@@ -143,7 +182,7 @@ function handleFolderClick (folderName) {
           </select>
         </div>
       </div>
-      <div class="bottom-right">
+      <div class="dialog-buttons">
         <button @click="closeDialog">取消</button>
         <button @click="confirmSelection" class="confirm-btn">确认</button>
       </div>
@@ -153,6 +192,11 @@ function handleFolderClick (folderName) {
 
 <style scoped>
 .openfiledialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   width: 800px;
@@ -163,6 +207,7 @@ function handleFolderClick (folderName) {
   padding: 0;
   overflow: hidden;
   font-family: Arial, sans-serif;
+  background-color: white;
 }
 
 .dialog-header {
@@ -193,10 +238,6 @@ function handleFolderClick (folderName) {
   border-right: 1px solid #ddd;
   overflow-y: auto;
   padding: 10px 0;
-}
-
-.sidebar-section {
-  margin-bottom: 20px;
 }
 
 .section-title {
@@ -283,7 +324,7 @@ function handleFolderClick (folderName) {
   border-top: 1px solid #ddd;
 }
 
-.bottom-left {
+.file-controls {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -311,12 +352,12 @@ function handleFolderClick (folderName) {
   width: 200px;
 }
 
-.bottom-right {
+.dialog-buttons {
   display: flex;
   gap: 10px;
 }
 
-.bottom-right button {
+.dialog-buttons button {
   padding: 8px 16px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -325,17 +366,17 @@ function handleFolderClick (folderName) {
   transition: all 0.2s;
 }
 
-.bottom-right button:hover {
+.dialog-buttons button:hover {
   background-color: #e0e0e0;
 }
 
-.bottom-right .confirm-btn {
+.dialog-buttons .confirm-btn {
   background-color: #2196f3;
   color: white;
   border-color: #2196f3;
 }
 
-.bottom-right .confirm-btn:hover {
+.dialog-buttons .confirm-btn:hover {
   background-color: #1976d2;
 }
 </style>
