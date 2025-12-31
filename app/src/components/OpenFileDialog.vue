@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <dialog class="openfiledialog" :open="model">
+  <dialog class="openfiledialog" v-if="model">
     <!-- 顶部标题栏 -->
     <div class="dialog-header">
       <div class="title">{{ props.title }}</div>
