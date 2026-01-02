@@ -1,36 +1,40 @@
 <script setup>
-/* eslint-disable no-undef */
+import {ref, defineProps, defineEmits} from 'vue'
 import OpenFileDirItem from './subcompoents/OpenFileDirItem.vue'
 import OpenFilePathItem from './subcompoents/OpenFilePathItem.vue'
 
-// 关闭对话框
+defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emit = defineEmits(['update:modelValue', 'confirm'])
+
+// 定义必要的变量
+const folders = ref([])
+const files = ref([])
+const selectedFile = ref('')
+
+// 实现方法
 function closeDialog() {
-  model.value = false
+  emit('update:modelValue', false)
 }
 
-// 确认选择
 function confirmSelection() {
-  console.log("Selected file:", selectedFile.value)
-  closeDialog()
+  emit('confirm', selectedFile.value)
+  emit('update:modelValue', false)
 }
 
-// 处理文件夹点击
-function handleFolderClick(folderName) {
-  console.log("Enter folder:", folderName)
-}
-
-// 处理文件点击
-function handleFileClick(fileName) {
-  selectedFile.value = fileName
-}
 </script>
 
 <template>
-  <dialog class="openfiredialog" v-if="model">
+  <dialog class="openfiredialog" v-if="modelValue">
     <div class="dialog-header">打开文件</div>
     <div class="dialog-body">
-      <OpenFileDirItem :folders="folders" @click="handleFolderClick"/>
-      <OpenFilePathItem :files="files" @click="handleFileClick"/>
+      <OpenFileDirItem :folders="folders"/>
+      <OpenFilePathItem :files="files"/>
     </div>
     <div class="dialog-footer">
       <label for="filename">文件名:</label>
@@ -50,8 +54,8 @@ function handleFileClick(fileName) {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  width: 800px;
-  height: 600px;
+  width: 90%;
+  height: 80%;
   border: none;
   border-radius: 10px;
   padding: 0;

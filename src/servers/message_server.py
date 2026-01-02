@@ -3,8 +3,6 @@ import json
 from typing import Set
 
 from fastapi import FastAPI, WebSocket
-
-active_connections: Set[WebSocket] = set()
 app = FastAPI()
 message_queue = asyncio.Queue()
 @app.post("/api/inside/post/")
@@ -14,7 +12,7 @@ async def get_msg(data: dict):
 @app.websocket("/api/")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    active_connections.add(websocket)
+
     try:
         # 创建并发任务
         receive_task = asyncio.create_task(receive_messages(websocket))
@@ -27,6 +25,7 @@ async def receive_messages(websocket: WebSocket):
     """接收客户端消息"""
     while True:
         data = await websocket.receive_text()
+        data = json.loads(data)
         await process_feedback_information(data)
 
 async def send_messages(websocket: WebSocket):
@@ -39,11 +38,12 @@ async def send_messages(websocket: WebSocket):
         except asyncio.TimeoutError:
             # 发送心跳保持连接
             await websocket.send_json({"type": "keep"})
-            await asyncio.sleep(5)
+            await asyncio.sleep(60)
 
         except Exception as e:
             print(f"消息发送异常: {e}")
             break
 
 async def process_feedback_information(data):
+    print('收到消息')
     print(data)

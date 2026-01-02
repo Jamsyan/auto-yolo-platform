@@ -2,7 +2,7 @@ import time
 import json
 import hashlib
 from datetime import timedelta
-from ..transportation_hub import Transponder
+from ..manage_repeat import MessagesRepeat
 
 class ProgressBar:
     def __init__(self):
@@ -16,7 +16,7 @@ class ProgressBar:
         self.time_update = {}
         self.task_list = []
         self.update_list = []
-        self.th = Transponder()
+        self.th = MessagesRepeat()
 
     def submit(self, task_id,task_name,total):
         self.total[task_id] = total

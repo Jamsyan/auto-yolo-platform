@@ -5,6 +5,7 @@ import {RouterView} from 'vue-router';
 import MenuBar from "./views/MenuBar.vue";
 import {pbarsubmit, pbarupdate} from "./api/api.js"
 
+
 provide("pbarsubmit", pbarsubmit);
 provide("pbarupdate", pbarupdate);
 
@@ -14,7 +15,7 @@ function initializeWebSocket() {
     getMessages(function(event) {
         const data = JSON.parse(event.data);
         console.log('收到消息:', data);
-        if (data.type === 'keep') {sendMessages(200)}
+        if (data.type === 'keep') {sendMessages({type: 'keep', status: 200})}
         else if (data.type === "ProgressBar.submit") {Object.assign(pbarsubmit.value, data)}
         else if (data.type === "ProgressBar.update") {Object.assign(pbarupdate.value, data)}
     });

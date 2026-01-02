@@ -7,7 +7,7 @@ class DefaultInterfaceUrl:
     GETINTERFRACEIRL = "/api/inside/get/"
     POSTINTERFRACEIRL = "/api/inside/post/"
 
-class Transponder:
+class MessagesRepeat:
     def __init__(self):
         self.requests = requests.Session()
         self.default = DefaultInterfaceUrl()

@@ -1,12 +1,28 @@
 <script setup>
+import {ref,inject} from 'vue';
 import ProgressBar from "@/components/ProgressBar.vue";
 import FileMenuBar from "@/components/FileMenuBar.vue";
-import {OpenFileDialog} from "@/components/OpenFileDialog.vue";
-import {ref} from "vue";
+import OpenFileDialog from "@/components/OpenFileDialog.vue";
 
-const model = ref(false)
-function openfile() {
-  model.value = true
+// 获取websocket注入
+const websocket = inject("websocket");
+
+// 控制对话框显示的变量
+const isDialogVisible = ref(false);
+
+function sendMessages(message) {
+  return websocket.sendMessage(message);
+}
+
+function showdialog() {
+  isDialogVisible.value = true;
+  const data = {type: "Dialog.openfile",}
+  sendMessages(data)
+}
+
+// 处理文件选择确认
+function handleFileConfirm(filename) {
+  console.log('Selected file:', filename);
 }
 
 </script>
@@ -14,7 +30,7 @@ function openfile() {
 <template>
   <div class="datacollection">
     <div id="dcbox1">
-      <button @click="openfile">导入</button>
+      <button @click="showdialog">导入</button>
       <button>保存</button>
       <button>开始采集</button>
       <button>采集模式</button>
@@ -25,7 +41,7 @@ function openfile() {
       <div id="showbox"></div>
     </div>
     <div id="dcbox3"><ProgressBar /></div>
-    <OpenFileDialog ref="openFileDislogRef" />
+    <OpenFileDialog v-model="isDialogVisible" @confirm="handleFileConfirm" />
   </div>
 </template>
 
