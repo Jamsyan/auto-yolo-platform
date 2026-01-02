@@ -106,7 +106,7 @@ npm run serve
 ### 4. 模型训练
 
 ```python
-from src.train import YoloTrain
+from train_model.train import YoloTrain
 
 # 创建训练实例
 trainer = YoloTrain(model='yolo11n.pt')

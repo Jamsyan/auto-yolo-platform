@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
+
 from ultralytics import YOLO
-from auto_config import ModelTrainSetData,DefaultPathSet
+
+from autoconfig.auto_config import ModelTrainSetData, DefaultPathSet
+
 
 class YoloTrain:
     def __init__(self,model='yolo11n.pt'):
@@ -35,6 +38,10 @@ class YoloTrain:
         config.device = 'cuda:0'
         config.rect = True
         model.train(**config.train_set())
+
+    def predict(self):
+        model = self.load_model()
+
 
     def val(self,model_name = None):
         config = self.config
