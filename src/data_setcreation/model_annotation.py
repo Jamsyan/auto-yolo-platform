@@ -4,7 +4,7 @@ import random
 
 from ultralytics import YOLO
 
-from autoconfig.auto_config import DefaultPathSet
+from auto_config.auto_config import DefaultPathSet
 
 
 class FaceAnnotation:

@@ -3,7 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 const routes = [
     { path: '/',component: () => import('../views/MenuBar.vue')},
     { path: '/datalabeling', component: () => import('../views/DataLabeling.vue') },
-    { path: '/datacollection', component: () => import('../views/DataCollection.vue') }
+    { path: '/data_collection', component: () => import('../views/DataCollection.vue') }
 ]
 
 const router = createRouter({

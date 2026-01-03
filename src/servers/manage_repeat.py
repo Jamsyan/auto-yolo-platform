@@ -18,7 +18,10 @@ class MessagesRepeat:
 
     def sendmessage(self,message):
         url = f"http://{self.localhost}:{self.port}/{self.post}"
-        self.requests.post(url,data=message)
+        try:
+            self.requests.post(url,data=message)
+        except requests.exceptions.ConnectionError:
+            print("Connection error")
 
     def getmessage(self):
         url = f"http://{self.localhost}:{self.port}/{self.get}"

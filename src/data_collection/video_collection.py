@@ -4,7 +4,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from autoconfig.auto_config import DefaultPathSet
+from auto_config.auto_config import DefaultPathSet
 from servers.api.progressbar import ProgressBar
 
 

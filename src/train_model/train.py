@@ -3,7 +3,7 @@ import os
 
 from ultralytics import YOLO
 
-from autoconfig.auto_config import ModelTrainSetData, DefaultPathSet
+from auto_config.auto_config import ModelTrainSetData, DefaultPathSet
 
 
 class YoloTrain:

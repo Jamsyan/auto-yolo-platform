@@ -15,8 +15,8 @@ const setActiveMenu = (path) => {
     <router-link 
       to="/datacollection"
       class="menu-item"
-      :class="{ active: activeMenu === '/datacollection' }"
-      @click="setActiveMenu('/datacollection')"
+      :class="{ active: activeMenu === '/data_collection' }"
+      @click="setActiveMenu('/data_collection')"
     >
       数据采集
     </router-link>

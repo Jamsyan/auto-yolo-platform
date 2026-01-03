@@ -1,7 +1,6 @@
 import time
 import json
 import hashlib
-from datetime import timedelta
 from ..manage_repeat import MessagesRepeat
 
 class ProgressBar:

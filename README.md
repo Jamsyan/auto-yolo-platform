@@ -12,48 +12,6 @@
 - **Web API接口**：基于FastAPI的API接口，支持WebSocket实时通信
 - **前端界面**：Vue.js前端界面，提供用户友好的操作体验
 
-## 项目结构
-
-```
-<项目根目录>
-├── app/                    # Vue.js前端应用
-│   ├── public/
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   │   ├── subcompoents/
-│   │   │   └── ProgressBar.vue
-│   │   ├── router/
-│   │   ├── views/
-│   │   ├── App.vue
-│   │   └── main.js
-│   ├── package.json
-│   └── vue.config.js
-├── src/                    # Python后端源码
-│   ├── servers/            # 服务器相关模块
-│   │   ├── api/
-│   │   │   └── progressbar.py  # 进度条管理
-│   │   ├── transportation_hub.py  # 传输中心
-│   │   └── ws_server.py         # WebSocket服务器
-│   ├── auto_annotation.py  # 视频帧提取、自动标注功能
-│   ├── auto_config.py      # 路径与训练参数配置
-│   ├── main.py             # 项目入口（FastAPI服务）
-│   └── train.py            # YOLO模型训练与验证逻辑
-├── Library/                # 数据与模型存储目录（自动生成）
-│   ├── Dataset/            # 数据集
-│   │   ├── core_set/       # 核心数据集
-│   │   ├── raw_data/       # 原始数据（图像/视频）
-│   │   └── train_set/      # 标注后训练集
-│   └── Model/              # 模型相关
-│       ├── annotation_model_hub/  # 标注用模型
-│       └── model_training_hub/    # 训练用模型、配置、日志
-│           ├── config/            # 训练配置文件
-│           ├── model_hub/         # 训练用模型文件
-│           └── training_log/      # 训练日志
-├── README.md
-└── pyproject.toml
-```
-
 ## 安装依赖
 
 确保已安装 Python 3.13 或更高版本，然后安装项目依赖：
@@ -69,7 +27,7 @@ uv sync # 安装项目依赖
 注意：ultralytics默认安装CPU版本的torch，如需使用CUDA，请先检查设备CUDA版本，如支持则执行以下操作：
 
 ```bash
-uv pip uninstall torch torchvision -y # 卸载CPU版本
+uv pip uninstall torch torchvision # 卸载CPU版本
 ```
 
 前往网站 https://pytorch.org/get-started/locally/ 按照需求选择CUDA版本，获得安装命令后执行：

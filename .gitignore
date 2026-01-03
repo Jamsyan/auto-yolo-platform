@@ -7,5 +7,5 @@ Library/Dataset/
 Library/Model/model_training_hub/training_log
 *.log
 
-*__pycache__/
+__pycache__/
 *.pyc

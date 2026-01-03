@@ -1,8 +1,7 @@
 import asyncio
 import json
-from typing import Set
-
 from fastapi import FastAPI, WebSocket
+from .api import OpenFileDialog
 app = FastAPI()
 message_queue = asyncio.Queue()
 @app.post("/api/inside/post/")
@@ -45,5 +44,7 @@ async def send_messages(websocket: WebSocket):
             break
 
 async def process_feedback_information(data):
-    print('收到消息')
-    print(data)
+    type = data["type"]
+    data = data["data"]
+    if type == "file.open":
+        OpenFileDialog.response_execution(data)
