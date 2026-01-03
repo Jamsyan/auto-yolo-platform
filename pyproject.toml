@@ -7,10 +7,8 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.126.0",
     "opencv-python>=4.12.0.88",
+    "pytest>=9.0.2",
     "pywin32>=311",
     "ultralytics>=8.3.237",
     "uvicorn[standard]>=0.40.0",
 ]
-
-[tool.setuptools]
-packages = ['auto_config','data_collection','data_setcreation','servers','train_model']
