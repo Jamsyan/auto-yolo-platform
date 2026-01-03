@@ -13,7 +13,6 @@ class YoloTrain:
         self.config_hub = DefaultPathSet.MODEL_TRAINING_CONFIG # 模型配置集
 
         self.model = model
-
         self.config = ModelTrainSetData()
 
     def load_model(self):
@@ -28,7 +27,7 @@ class YoloTrain:
         model = self.load_model()  # 加载模型
         # 模型训练参数
         config = self.config
-        config.batch = 0.7
+        config.batch = 16
         config.epochs = 50
         config.data = cfph
         config.save = True
@@ -50,4 +49,4 @@ class YoloTrain:
         model.val(**config.train_set())
 
 if __name__ == '__main__':
-    pass
+    YoloTrain().val(r'E:\Project\YOLO\Library\Model\model_training_hub\training_log\face_model\weights\best.pt')

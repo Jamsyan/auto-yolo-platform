@@ -1,4 +1,4 @@
-path: ../Dataset/train_set
+path: Library/Dataset/train_set
 train:
   - 1/images/train
   - 2/images/train

@@ -108,19 +108,19 @@ class ModelTrainSetData:
         return data
 
 class DefaultPathSet:
-    LIBRARY = '../Library'
-    FULL_DATASET = '../Library/Dataset' # 数据集目录
-    FULL_DATASET_CORE_SET = '../Library/Dataset/core_set' # 核心数据集目录
-    FULL_DATASET_RAW_DATA = '../Library/Dataset/raw_data' # 原始数据集目录
-    FULL_DATASET_RAW_DATA_IMAGE = '../Library/Dataset/raw_data/image' # 原始数据集图片目录
-    FULL_DATASET_RAW_DATA_VIDEO = '../Library/Dataset/raw_data/video' # 原始数据集视频目录
-    FULL_DATASET_TRAIN_SET = '../Library/Dataset/train_set' # 训练数据集目录
-    MODEL = '../Library/Model' # 模型目录
-    MODEL_ANNOTATION_MODEL_HUB = '../Library/Model/annotation_model_hub' # 标注模型库
-    MODEL_TRAINING_HUB = '../Library/Model/model_training_hub' # 模型训练库
-    MODEL_TRAINING_CONFIG = '../Library/Model/model_training_hub/config' # 模型训练配置目录
-    MODEL_TRAINING_MODEL_HUB = '../Library/Model/model_training_hub/model_hub' # 模型训练模型目录
-    MODEL_TRAINING_HUB_TRAINING_LOG = '../Library/Model/model_training_hub/training_log' # 模型训练记录目录
+    LIBRARY = '../../Library'
+    FULL_DATASET = '../../Library/Dataset' # 数据集目录
+    FULL_DATASET_CORE_SET = '../../Library/Dataset/core_set' # 核心数据集目录
+    FULL_DATASET_RAW_DATA = '../../Library/Dataset/raw_data' # 原始数据集目录
+    FULL_DATASET_RAW_DATA_IMAGE = '../../Library/Dataset/raw_data/image' # 原始数据集图片目录
+    FULL_DATASET_RAW_DATA_VIDEO = '../../Library/Dataset/raw_data/video' # 原始数据集视频目录
+    FULL_DATASET_TRAIN_SET = '../../Library/Dataset/train_set' # 训练数据集目录
+    MODEL = '../../Library/Model' # 模型目录
+    MODEL_ANNOTATION_MODEL_HUB = '../../Library/Model/annotation_model_hub' # 标注模型库
+    MODEL_TRAINING_HUB = '../../Library/Model/model_training_hub' # 模型训练库
+    MODEL_TRAINING_CONFIG = '../../Library/Model/model_training_hub/config' # 模型训练配置目录
+    MODEL_TRAINING_MODEL_HUB = '../../Library/Model/model_training_hub/model_hub' # 模型训练模型目录
+    MODEL_TRAINING_HUB_TRAINING_LOG = '../../Library/Model/model_training_hub/training_log' # 模型训练记录目录
 
 
 class AutoConfig:...
