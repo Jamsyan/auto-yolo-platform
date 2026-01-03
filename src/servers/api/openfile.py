@@ -1,5 +1,5 @@
 from pathlib import Path
-from servers.manage_repeat import MessagesRepeat
+from ..manage_repeat import MessagesRepeat
 import win32file
 
 class OpenFileDialog:
@@ -15,7 +15,7 @@ class OpenFileDialog:
         self.ext:str|None = None
 
         self.default = ""
-        self.filter_list = self.filter_list()
+        self.filter_list = self._get_filter_list()
         self.msgsend = MessagesRepeat()
 
     def data(self):
@@ -28,7 +28,7 @@ class OpenFileDialog:
             'ext': self.ext
         }
 
-    def filter_list(self,filter:str = None):
+    def _get_filter_list(self, filter:str = None):
         filter_list = [
             '.jpg',
             '.jpeg',
@@ -128,7 +128,7 @@ class OpenFileDialog:
             'file.open.file_list':self.get_file_list,
             'file.back':self.go_back,
             'file.search':self.search,
-            'file.filter':self.filter_list,
+            'file.filter':self._get_filter_list,
         }
         if types in control_actuator:
             control_actuator[types]()
